@@ -107,6 +107,8 @@ The same checks run automatically on every push (badge at the top; see the **Act
   [Head of Department](docs/user-manuals/HEAD_OF_DEPARTMENT.md), [Student](docs/user-manuals/STUDENT.md)
 * [Release notes](docs/RELEASE_NOTES.md)
 * [Change request CR1 (v1.1)](docs/CR1_CHANGE_ANALYSIS.md): classification, impact analysis, regression tests
+* [Professional, legal and ethical issues](docs/PROFESSIONAL_LEGAL_ETHICAL.md)
+* [Third-party licences](THIRD_PARTY_LICENSES.md)
 * [Deployment diagram](images/deployment_diagram_v1.1.png); all design diagrams (v1.0 and v1.1) are in [images/](images/)
 
 To build the installable release zip (in the MSYS2 UCRT64 terminal): `bash tools/package-windows.sh`
