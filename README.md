@@ -90,8 +90,8 @@ a layer above it by mistake.
 ## 6. Tests
 
 ```
-./build/lms_tests.exe                                              # 46 unit + integration tests
-python tests/system/run_system_tests.py build/lms.exe system-test-run   # 20 system tests
+./build/lms_tests.exe                                              # 51 unit + integration tests
+python tests/system/run_system_tests.py build/lms.exe system-test-run   # 22 system tests
 ./build/lms_nfr_perf.exe                                           # NFR01 / NFR05 measurements
 ```
 
@@ -106,6 +106,7 @@ The same checks run automatically on every push (badge at the top; see the **Act
 * User manuals: [Administrator](docs/user-manuals/ADMINISTRATOR.md), [Lecturer](docs/user-manuals/LECTURER.md),
   [Head of Department](docs/user-manuals/HEAD_OF_DEPARTMENT.md), [Student](docs/user-manuals/STUDENT.md)
 * [Release notes](docs/RELEASE_NOTES.md)
-* [Deployment diagram](images/deployment_diagram.png)
+* [Change request CR1 (v1.1)](docs/CR1_CHANGE_ANALYSIS.md): classification, impact analysis, regression tests
+* [Deployment diagram](images/deployment_diagram_v1.1.png); all design diagrams (v1.0 and v1.1) are in [images/](images/)
 
 To build the installable release zip (in the MSYS2 UCRT64 terminal): `bash tools/package-windows.sh`

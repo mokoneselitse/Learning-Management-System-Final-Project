@@ -40,9 +40,12 @@ void StudentMenu::viewMyAssignments() {
     for (const Assignment& a : list) {
         out << "  [" << a.getId() << "] " << a.getTitle()
             << "  | deadline " << formatTime(a.getDeadline());
-        std::optional<Extension> ext = services.assignments.myExtension(session, a.getId());
-        if (ext) {
-            out << " (extended to " << formatTime(ext->getNewDeadline()) << " for you)";
+        // v1.1 (CR1): show the deadline that applies to this student and why.
+        DeadlineInfo d = services.assignments.deadlineFor(session, a.getId());
+        if (d.extendedBy == "individual") {
+            out << " (extended to " << formatTime(d.effective) << " for you)";
+        } else if (d.extendedBy == "class") {
+            out << " (extended to " << formatTime(d.effective) << " for the whole class)";
         }
         out << "  | max mark " << a.getMaxMark() << "\n";
     }

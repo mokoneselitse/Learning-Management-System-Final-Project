@@ -40,10 +40,12 @@ int SubmissionService::daysLate(Timestamp deadline, Timestamp at) {
     return static_cast<int>((secondsLate + secondsPerDay - 1) / secondsPerDay);  // ceiling
 }
 
-// The assignment deadline, or the student's own extension if there is one (FR06).
+// The latest of: the assignment deadline, a class extension (CR1, v1.1) and the
+// student's own extension (FR06).
 Timestamp SubmissionService::effectiveDeadline(const Assignment& a, int studentId) {
+    std::optional<ClassExtension> classExt = assignments.findClassExtension(a.getId());
     std::optional<Extension> ext = assignments.findExtension(a.getId(), studentId);
-    return a.effectiveDeadlineFor(ext ? &(*ext) : nullptr);
+    return a.effectiveDeadlineFor(classExt ? &(*classExt) : nullptr, ext ? &(*ext) : nullptr);
 }
 
 Submission SubmissionService::submit(const Session& s, int assignmentId,

@@ -8,6 +8,13 @@
 #include "Repositories.h"
 #include "Session.h"
 
+// v1.1 (CR1): the deadline a student sees on their assignment list.
+struct DeadlineInfo {
+    Timestamp original;   // the deadline the lecturer set
+    Timestamp effective;  // the deadline that applies to this student
+    std::string extendedBy;  // "" = no extension, "class" or "individual"
+};
+
 class AssignmentService {
 public:
     AssignmentService(IAssignmentRepository& assignments, ICourseRepository& courses,
@@ -22,10 +29,14 @@ public:
     std::vector<Assignment> listForLecturer(const Session& s, bool byDeadline);
     std::vector<Course> coursesForStudent(const Session& s);
 
-    // Added during coding: the lecturer's own courses, and the logged-in
-    // student's extension for an assignment (shown on their assignment list).
+    // Added during coding: the lecturer's own courses.
     std::vector<Course> coursesForLecturer(const Session& s);
-    std::optional<Extension> myExtension(const Session& s, int assignmentId);
+
+    // v1.1 (CR1): extend the deadline for every student on the course (FR24).
+    void grantClassExtension(const Session& s, int assignmentId, Timestamp newDeadline,
+                             const std::string& reason);
+    // v1.1 (CR1): the logged-in student's deadline for an assignment (FR15).
+    DeadlineInfo deadlineFor(const Session& s, int assignmentId);
 
 private:
     IAssignmentRepository& assignments;

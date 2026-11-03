@@ -21,8 +21,17 @@ double Assignment::getMaxMark() const { return maxMark; }
 int Assignment::getCreatedBy() const { return createdBy; }
 
 Timestamp Assignment::effectiveDeadlineFor(const Extension* ext) const {
-    if (ext != nullptr && ext->getNewDeadline() > deadline) {
-        return ext->getNewDeadline();
+    return effectiveDeadlineFor(nullptr, ext);
+}
+
+Timestamp Assignment::effectiveDeadlineFor(const ClassExtension* classExt,
+                                           const Extension* ext) const {
+    Timestamp result = deadline;
+    if (classExt != nullptr && classExt->getNewDeadline() > result) {
+        result = classExt->getNewDeadline();
     }
-    return deadline;
+    if (ext != nullptr && ext->getNewDeadline() > result) {
+        result = ext->getNewDeadline();
+    }
+    return result;
 }

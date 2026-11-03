@@ -1,5 +1,32 @@
 # Release Notes
 
+## Version 1.1.0 – class-wide extensions (tag `v1.1`)
+
+Change request **CR1** ([analysis](CR1_CHANGE_ANALYSIS.md)).
+
+### New
+* **Lecturers can extend the deadline for the whole class** (Lecturer menu, option 8), with a reason,
+  before the original deadline (FR24). Granting it again replaces the earlier date.
+* **Students see extended deadlines on their assignment list**, marked "for the whole class" or
+  "for you" (FR15).
+
+### Changed
+* The deadline for submitting is now the latest of the original deadline, the class extension and the
+  student's own extension (FR16). Late days are counted from that deadline.
+* All existing menu options keep their numbers.
+
+### Upgrade
+* Replace the program files and keep `C:\LMS\data`. The database is upgraded automatically on first
+  start (new table `class_extension`); no data is lost. See the installation guide, Section 7.
+
+### Quality
+* 51 automated tests (5 new) and 22 system tests (2 new), all passing; all v1.0 tests re-run as
+  regression tests (only IT-09 updated, for a renamed method). Business-logic coverage 96%.
+
+### Known limitations
+* A class extension cannot be granted after the original deadline; use individual extensions then.
+* The other v1.0 limitations below still apply, except the one about class-wide extensions.
+
 ## Version 1.0.0 – first release (tag `v1.0`)
 
 The first release of the Moderated LMS: an offline, single-computer system in which lecturers mark work,

@@ -25,10 +25,13 @@ Option **2** lists every assignment for your courses with its id, deadline and m
 ```
   [1] Assignment 1  | deadline 2026-11-08 23:59  | max mark 50
 ```
-If your lecturer gave you an extension, you see your own deadline too:
+If the deadline was extended, the new deadline is shown next to the original one, either for the
+whole class or for you only:
 ```
-  [1] Assignment 1  | deadline 2026-11-08 23:59 (extended to 2026-11-10 23:59 for you)  | max mark 50
+  [1] Assignment 1  | deadline 2026-11-08 23:59 (extended to 2026-11-10 23:59 for the whole class)  | max mark 50
+  [2] Lab report    | deadline 2026-11-12 12:00 (extended to 2026-11-14 12:00 for you)  | max mark 20
 ```
+The **extended** date is your real deadline.
 
 ## Hand in work
 

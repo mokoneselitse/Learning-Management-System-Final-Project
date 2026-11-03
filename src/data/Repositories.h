@@ -9,6 +9,7 @@
 
 #include "Assignment.h"
 #include "AuditEntry.h"
+#include "ClassExtension.h"
 #include "Course.h"
 #include "Department.h"
 #include "Extension.h"
@@ -60,6 +61,9 @@ public:
     virtual std::vector<Assignment> forLecturer(int lecturerId) = 0;
     virtual void saveExtension(const Extension& e) = 0;
     virtual std::optional<Extension> findExtension(int assignmentId, int studentId) = 0;
+    // v1.1 (CR1)
+    virtual void saveClassExtension(const ClassExtension& e) = 0;  // insert or replace
+    virtual std::optional<ClassExtension> findClassExtension(int assignmentId) = 0;
 };
 
 class ISubmissionRepository {

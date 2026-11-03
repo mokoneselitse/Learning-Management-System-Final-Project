@@ -65,8 +65,8 @@ TEST_CASE_METHOD(LmsFixture, "IT-09 An extension lets only that student submit o
     Session s2 = login("stu2");
     CHECK(submissionService.submit(s1, a, workFile).getStatus() == SubmissionStatus::SUBMITTED);
     CHECK(submissionService.submit(s2, a, workFile).getStatus() == SubmissionStatus::LATE);
-    CHECK(assignmentService.myExtension(s1, a).has_value());
-    CHECK_FALSE(assignmentService.myExtension(s2, a).has_value());
+    CHECK(assignmentService.deadlineFor(s1, a).extendedBy == "individual");
+    CHECK(assignmentService.deadlineFor(s2, a).extendedBy.empty());
 }
 
 TEST_CASE_METHOD(LmsFixture, "IT-10 Marking applies the late penalty and writes an audit entry",

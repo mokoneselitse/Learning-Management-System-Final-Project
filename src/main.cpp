@@ -51,10 +51,11 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     if (firstArg == "--help") {
-        std::cout << "Usage: lms [database file]\n"
-                     "  database file   default: lms.db in the current folder\n"
-                     "                  (submitted files are kept in a 'submissions' folder next to it)\n"
-                     "  --version       show the version number\n";
+        std::cout
+            << "Usage: lms [database file]\n"
+               "  database file   default: lms.db in the current folder\n"
+               "                  (submitted files are kept in a 'submissions' folder next to it)\n"
+               "  --version       show the version number\n";
         return 0;
     }
     std::string dbPath = firstArg.empty() ? "lms.db" : firstArg;
