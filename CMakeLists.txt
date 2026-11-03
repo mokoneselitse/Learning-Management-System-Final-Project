@@ -92,6 +92,7 @@ add_executable(lms
 )
 target_include_directories(lms PRIVATE src/presentation)
 target_link_libraries(lms PRIVATE lms_logic)
+target_compile_definitions(lms PRIVATE LMS_VERSION="${PROJECT_VERSION}")  # from project(... VERSION)
 
 if(MSVC)
   target_compile_options(lms PRIVATE /W4)

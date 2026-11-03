@@ -45,11 +45,33 @@ static void createFirstAdmin(IUserRepository& users, IPasswordHasher& hasher) {
 int main(int argc, char* argv[]) {
     // Usage: lms [database file]. Submitted files are copied into a
     // "submissions" folder next to the database file.
-    std::string dbPath = (argc > 1) ? argv[1] : "lms.db";
+    std::string firstArg = (argc > 1) ? argv[1] : "";
+    if (firstArg == "--version") {
+        std::cout << "Moderated LMS version " << LMS_VERSION << "\n";
+        return 0;
+    }
+    if (firstArg == "--help") {
+        std::cout << "Usage: lms [database file]\n"
+                     "  database file   default: lms.db in the current folder\n"
+                     "                  (submitted files are kept in a 'submissions' folder next to it)\n"
+                     "  --version       show the version number\n";
+        return 0;
+    }
+    std::string dbPath = firstArg.empty() ? "lms.db" : firstArg;
     std::filesystem::path dbFolder = std::filesystem::path(dbPath).parent_path();
     std::string storageFolder = (dbFolder / "submissions").string();
 
     try {
+        if (!dbFolder.empty()) {  // e.g. C:\LMS\data
+            std::error_code error;
+            std::filesystem::create_directories(dbFolder, error);
+            if (error) {
+                std::cerr << "Cannot create the data folder '" << dbFolder.string()
+                          << "'. Check the path in the shortcut and that this Windows user is "
+                             "allowed to write there.\n";
+                return 1;
+            }
+        }
         // ---- data access layer
         SqliteDatabase db(dbPath);
         SqliteUserRepository users(db);
@@ -77,7 +99,7 @@ int main(int argc, char* argv[]) {
         createFirstAdmin(users, hasher);
 
         // ---- presentation layer: log in, run the menu for that role, repeat
-        std::cout << "\n===== Moderated LMS =====\n";
+        std::cout << "\n===== Moderated LMS " << LMS_VERSION << " =====\n";
         while (std::cin) {
             std::string username = ask("\nUsername (leave empty to quit): ");
             if (username.empty()) break;

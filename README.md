@@ -102,3 +102,10 @@ The same checks run automatically on every push (badge at the top; see the **Act
 * [Coding standard](CODING_STANDARD.md)
 * [Configuration management](docs/CONFIGURATION_MANAGEMENT.md): branching, commits, releases, CI
 * [Quality assurance](docs/QUALITY_ASSURANCE.md): static analysis, metrics, code review
+* [Installation guide](docs/INSTALLATION_GUIDE.md) for the school's technician
+* User manuals: [Administrator](docs/user-manuals/ADMINISTRATOR.md), [Lecturer](docs/user-manuals/LECTURER.md),
+  [Head of Department](docs/user-manuals/HEAD_OF_DEPARTMENT.md), [Student](docs/user-manuals/STUDENT.md)
+* [Release notes](docs/RELEASE_NOTES.md)
+* [Deployment diagram](images/deployment_diagram.png)
+
+To build the installable release zip (in the MSYS2 UCRT64 terminal): `bash tools/package-windows.sh`
