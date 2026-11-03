@@ -3,3 +3,5 @@ build/
 submissions/
 system-test-run/
 nfr_perf.db
+dist/
+build-release/
