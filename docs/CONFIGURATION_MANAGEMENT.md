@@ -83,8 +83,8 @@ clean Ubuntu 24.04 machine:
 |---|---|
 | Static analysis (cppcheck) | cppcheck reports any finding |
 | Build | the code does not compile, or there is any compiler warning |
-| Unit + integration tests (`ctest`) | any of the 46 test cases fails |
-| System tests | any of the 20 system tests fails |
+| Unit + integration tests (`ctest`) | any of the 51 test cases fails |
+| System tests | any of the 22 system tests fails |
 | Coverage | business-logic line coverage falls below 70% |
 
 The coverage report, system-test transcripts and results are saved with every run

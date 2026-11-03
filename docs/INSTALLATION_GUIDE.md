@@ -1,4 +1,4 @@
-# Installation Guide – Moderated LMS 1.0
+# Installation Guide – Moderated LMS 1.1
 
 For the school's IT technician. No programming knowledge is needed. Installing takes about 10 minutes.
 
@@ -13,7 +13,7 @@ time at that computer. See the [deployment diagram](https://github.com/mokonesel
 | Computer | Windows 10 or Windows 11, 64-bit |
 | Disk space | About 50 MB, plus space for submitted files |
 | Internet | Not needed (only to download the release once) |
-| Release file | `LMS-1.0.0-windows.zip` from the [GitHub Releases page](https://github.com/mokoneselitse/Learning-Management-System-Final-Project/releases), or copied on a USB drive |
+| Release file | `LMS-1.1.0-windows.zip` from the [GitHub Releases page](https://github.com/mokoneselitse/Learning-Management-System-Final-Project/releases), or copied on a USB drive |
 | For backups | A USB flash drive |
 
 The zip contains `lms.exe` (the program), several `.dll` files the program needs, this guide, the user
@@ -21,15 +21,15 @@ manuals and the release notes. **Keep all these files together in one folder.**
 
 ## 2. Install
 
-1. Copy `LMS-1.0.0-windows.zip` to the computer (for example to the Desktop).
+1. Copy `LMS-1.1.0-windows.zip` to the computer (for example to the Desktop).
 2. Right-click the zip → **Extract All…** → type `C:\` as the destination → **Extract**.
-   This creates the folder `C:\LMS-1.0.0-windows`.
+   This creates the folder `C:\LMS-1.1.0-windows`.
 3. Rename that folder to `C:\LMS` (right-click → **Rename**).
 4. Check the program works: press **Windows key + R**, type `cmd`, press Enter, and type:
    ```
    C:\LMS\lms.exe --version
    ```
-   It should print `Moderated LMS version 1.0.0`. Close the window.
+   It should print `Moderated LMS version 1.1.0`. Close the window.
 
 ## 3. Create the desktop shortcut
 
@@ -54,7 +54,7 @@ Full name: Thabo Mokoena
 Password:                       (not shown while typing)
 Administrator created. You can now log in as 'admin'.
 
-===== Moderated LMS 1.0.0 =====
+===== Moderated LMS 1.1.0 =====
 
 Username (leave empty to quit): admin
 Password:
@@ -95,6 +95,10 @@ folder back to `C:\LMS\data`, and start the program.
 3. Copy `lms.exe`, all the `.dll` files, the guides and the user manuals over the old ones in `C:\LMS`.
    **Do not touch `C:\LMS\data`**: it holds all the school's data and is kept by the new version.
 4. Check: `C:\LMS\lms.exe --version` shows the new version number.
+
+**From 1.0 to 1.1:** nothing else is needed. The first time version 1.1 starts, it adds the new
+`class_extension` table to the existing database automatically; all users, courses, submissions and
+marks are kept.
 
 ## 8. Uninstall
 

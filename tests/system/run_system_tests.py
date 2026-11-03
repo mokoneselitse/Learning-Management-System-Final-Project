@@ -1,4 +1,4 @@
-# run_system_tests.py - system tests ST-01 to ST-20 (Phase 5).
+# run_system_tests.py - system tests ST-01 to ST-20 (Phase 5) and ST-21 to ST-22 (CR1, v1.1).
 # Runs the REAL lms program, types the test input into it exactly as a user would,
 # and checks the output. Each test's full input and output is saved as evidence.
 #
@@ -175,6 +175,26 @@ test("ST-20", "All (invalid input)", "Phase 4: exceptions/validation", "Bad inpu
      ["Please enter a whole number.", "Unknown option.", "Error: File path cannot be empty.",
       "Please use the format YYYY-MM-DD HH:MM", "Please enter a number", "Goodbye."],
      forbid=["Unexpected error", "Fatal"])
+
+# ---------------- v1.1: change request CR1 (class-wide extension)
+test("ST-21", "Extend deadline for whole class (CR1, v1.1)", "FR24, FR15, FR16",
+     "Lecturer extends a whole class; students see it and submit on time after the original deadline",
+     ["lec1","pw", "3","1","Group Project","Team work",D3,"40",
+      "8","1",D5,"Too late now",
+      "8","4",PAST,"Earlier date",  "8","4",D5,"",  "8","4",D5,"Exam week clash", "0"],
+     ["Assignment created with id 4.",
+      "Error: The original deadline has passed. Use individual extensions for late cases.",
+      "Error: The new deadline must be later than the original deadline.",
+      "Error: Reason cannot be empty.",
+      "Deadline extended to " + D5 + " for every student on the course."])
+move_deadline_back(4, 30)   # the original deadline of assignment 4 has now passed
+# (assignment 3 was created by the robustness test ST-20)
+test("ST-22", "View assignments + Submit work after a class extension (CR1, v1.1)", "FR15, FR16, FR24",
+     "Student list shows the class extension; submitting after the original deadline is on time",
+     ["stu1","pw", "2", "3","4",ESSAY, "0"],
+     ["[4] Group Project", "(extended to " + D5 + " for the whole class)",
+      "Submitted. Status: SUBMITTED, attempt 1"],
+     forbid=["Status: LATE"])
 
 json.dump(results, open(os.path.join(WORK, "results.json"), "w"), indent=1)
 print(f"\n{sum(r['passed'] for r in results)}/{len(results)} system tests passed")

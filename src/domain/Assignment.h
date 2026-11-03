@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "ClassExtension.h"
 #include "Extension.h"
 #include "Types.h"
 
@@ -23,6 +24,9 @@ public:
     // one (and it is later), otherwise the normal deadline. Pass nullptr if
     // the student has no extension.
     Timestamp effectiveDeadlineFor(const Extension* ext) const;
+    // v1.1 (CR1): the latest of the original deadline, the class extension and the
+    // student's own extension. Either pointer may be null.
+    Timestamp effectiveDeadlineFor(const ClassExtension* classExt, const Extension* ext) const;
 
 private:
     int id;

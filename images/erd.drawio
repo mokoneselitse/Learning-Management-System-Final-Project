@@ -1,0 +1,94 @@
+<mxfile host="Electron">
+  <diagram name="ERD" id="d1">
+    <mxGraphModel dx="1471" dy="894" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1150" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;department&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&lt;u&gt;department_id&lt;/u&gt; : INTEGER&lt;br&gt;name : TEXT UNIQUE&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;hod_user_id : INTEGER UNIQUE NULL&lt;/p&gt;" vertex="1">
+          <mxGeometry height="79" width="232" x="40" y="53" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;course&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&lt;u&gt;course_id&lt;/u&gt; : INTEGER&lt;br&gt;code : TEXT UNIQUE&lt;br&gt;title : TEXT&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;department_id : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;lecturer_id : INTEGER NULL&lt;/p&gt;" vertex="1">
+          <mxGeometry height="106" width="191" x="430" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;assignment&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&lt;u&gt;assignment_id&lt;/u&gt; : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;course_id : INTEGER&lt;br&gt;title : TEXT&lt;br&gt;description : TEXT&lt;br&gt;deadline : INTEGER&lt;br&gt;max_mark : REAL&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;created_by : INTEGER&lt;br&gt;created_at : INTEGER&lt;/p&gt;" vertex="1">
+          <mxGeometry height="145" width="173" x="820" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;extension&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&lt;u&gt;extension_id&lt;/u&gt; : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;assignment_id : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;student_id : INTEGER&lt;br&gt;new_deadline : INTEGER&lt;br&gt;reason : TEXT&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;granted_by : INTEGER&lt;br&gt;granted_at : INTEGER&lt;/p&gt;" vertex="1">
+          <mxGeometry height="132" width="173" x="1240" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;users&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&lt;u&gt;user_id&lt;/u&gt; : INTEGER&lt;br&gt;username : TEXT UNIQUE&lt;br&gt;password_hash : TEXT&lt;br&gt;full_name : TEXT&lt;br&gt;role : TEXT&lt;br&gt;is_active : INTEGER&lt;br&gt;created_at : INTEGER&lt;/p&gt;" vertex="1">
+          <mxGeometry height="132" width="170" x="40" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;enrolment&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK FK&lt;/b&gt;&amp;nbsp;&lt;u&gt;student_id&lt;/u&gt; : INTEGER&lt;br&gt;&lt;b&gt;PK FK&lt;/b&gt;&amp;nbsp;&lt;u&gt;course_id&lt;/u&gt; : INTEGER&lt;br&gt;enrolled_at : INTEGER&lt;/p&gt;" vertex="1">
+          <mxGeometry height="79" width="173" x="439" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;submission&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&lt;u&gt;submission_id&lt;/u&gt; : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;assignment_id : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;student_id : INTEGER&lt;br&gt;file_path : TEXT&lt;br&gt;submitted_at : INTEGER&lt;br&gt;attempt_no : INTEGER&lt;br&gt;status : TEXT&lt;br&gt;days_late : INTEGER&lt;br&gt;raw_mark : REAL NULL&lt;br&gt;mark : REAL NULL&lt;br&gt;feedback : TEXT NULL&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;marked_by : INTEGER NULL&lt;br&gt;marked_at : INTEGER NULL&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;moderated_by : INTEGER NULL&lt;br&gt;moderated_at : INTEGER NULL&lt;br&gt;released_at : INTEGER NULL&lt;/p&gt;" vertex="1">
+          <mxGeometry height="250" width="197" x="820" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;fontSize=11;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;audit_log&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:5px;&quot;&gt;&lt;b&gt;PK&lt;/b&gt;&amp;nbsp;&lt;u&gt;audit_id&lt;/u&gt; : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;submission_id : INTEGER&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;&amp;nbsp;changed_by : INTEGER&lt;br&gt;changed_at : INTEGER&lt;br&gt;action : TEXT&lt;br&gt;old_mark : REAL NULL&lt;br&gt;new_mark : REAL&lt;br&gt;reason : TEXT&lt;/p&gt;" vertex="1">
+          <mxGeometry height="145" width="173" x="1240" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" edge="1" parent="1" source="c2" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c3" value="offers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c4" value="sets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" edge="1" parent="1" source="c4" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=1;exitY=0.5;entryX=0;entryY=0.5;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c5" value="allows">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" edge="1" parent="1" source="c4" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c8" value="receives">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c14" edge="1" parent="1" source="c8" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=1;exitY=0.35;entryX=0;entryY=0.3;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c9" value="records">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" edge="1" parent="1" source="c3" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c7" value="has">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=1;exitY=0.3;entryX=0;entryY=0.5;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c7" value="enrols in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c17" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERzeroToOne;endArrow=ERzeroToOne;exitX=0.5;exitY=0;entryX=0.5;entryY=1;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c2" value="heads">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERzeroToOne;endArrow=ERzeroToMany;exitX=1;exitY=0.1;entryX=0;entryY=0.85;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c3" value="teaches">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="235" y="443" />
+              <mxPoint x="235" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c19" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.4;exitY=1;entryX=0.4;entryY=1;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c8" value="submits">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="108" y="655" />
+              <mxPoint x="899" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c20" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.7;exitY=1;entryX=0.5;entryY=1;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c9" value="changes (changed_by)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="159" y="685" />
+              <mxPoint x="1327" y="685" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c21" edge="1" parent="1" source="c6" style="edgeStyle=orthogonalEdgeStyle;html=1;rounded=0;fontSize=10;endFill=0;startFill=0;endSize=12;startSize=12;labelBackgroundColor=none;startArrow=ERmandOne;endArrow=ERzeroToMany;exitX=0.15;exitY=1;entryX=1;entryY=0.6;fontColor=#000000;fillColor=#f5f5f5;strokeColor=#666666;" target="c5" value="is granted (student_id)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="66" y="715" />
+              <mxPoint x="1453" y="715" />
+              <mxPoint x="1453" y="119" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c22" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=10;align=left;spacingLeft=6;verticalAlign=top;labelBackgroundColor=none;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;" value="Also FK to users(user_id), lines omitted for readability: assignment.created_by, extension.granted_by, submission.marked_by, submission.moderated_by.&lt;br&gt;Crow&#39;s foot: || exactly one, o| zero or one, o&amp;lt; zero or many." vertex="1">
+          <mxGeometry height="46" width="760" x="40" y="745" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

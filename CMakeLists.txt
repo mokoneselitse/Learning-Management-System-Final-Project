@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ModeratedLMS VERSION 1.0.0 LANGUAGES CXX)
+project(ModeratedLMS VERSION 1.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -116,6 +116,7 @@ if(LMS_BUILD_TESTS)
       tests/integration/test_admin_auth.cpp
       tests/integration/test_workflow.cpp
       tests/integration/test_security.cpp
+      tests/integration/test_cr1_class_extension.cpp
     )
     target_include_directories(lms_tests PRIVATE tests tests/integration)
     target_link_libraries(lms_tests PRIVATE lms_logic Catch2::Catch2WithMain)

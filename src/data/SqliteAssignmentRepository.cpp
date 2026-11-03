@@ -87,3 +87,29 @@ std::optional<Extension> SqliteAssignmentRepository::findExtension(int assignmen
     if (!st.step()) return std::nullopt;
     return readExtension(st);
 }
+
+// v1.1 (CR1): granting a class extension again replaces the old one.
+void SqliteAssignmentRepository::saveClassExtension(const ClassExtension& e) {
+    Statement st = db.prepare(
+        "INSERT INTO class_extension (assignment_id, new_deadline, reason, granted_by, granted_at) "
+        "VALUES (?, ?, ?, ?, ?) "
+        "ON CONFLICT (assignment_id) DO UPDATE SET new_deadline = excluded.new_deadline, "
+        "reason = excluded.reason, granted_by = excluded.granted_by, "
+        "granted_at = excluded.granted_at;");
+    st.bind(1, e.getAssignmentId())
+        .bind(2, toUnixSeconds(e.getNewDeadline()))
+        .bind(3, e.getReason())
+        .bind(4, e.getGrantedBy())
+        .bind(5, toUnixSeconds(e.getGrantedAt()));
+    st.step();
+}
+
+std::optional<ClassExtension> SqliteAssignmentRepository::findClassExtension(int assignmentId) {
+    Statement st = db.prepare(
+        "SELECT assignment_id, new_deadline, reason, granted_by, granted_at "
+        "FROM class_extension WHERE assignment_id = ?;");
+    st.bind(1, assignmentId);
+    if (!st.step()) return std::nullopt;
+    return ClassExtension(st.columnInt(0), readTime(st, 1), st.columnText(2), st.columnInt(3),
+                          readTime(st, 4));
+}

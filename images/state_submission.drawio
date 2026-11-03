@@ -1,0 +1,88 @@
+<mxfile host="Electron">
+  <diagram name="State machine - Submission" id="d1">
+    <mxGraphModel dx="2641" dy="1605" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1850" pageHeight="760" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" parent="1" style="ellipse;html=1;labelBackgroundColor=none;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="26" width="26" x="20" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="rhombus;html=1;labelBackgroundColor=none;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="32" width="32" x="120" y="297" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fontSize=11;verticalAlign=top;labelBackgroundColor=none;strokeColor=#000000;" value="&lt;b&gt;Submitted&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align:left;font-size:10px;&quot;&gt;entry / record submittedAt;&lt;br&gt;attemptNo = 1&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="230" x="330" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fontSize=11;verticalAlign=top;labelBackgroundColor=none;strokeColor=#000000;" value="&lt;b&gt;Late&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align:left;font-size:10px;&quot;&gt;entry / daysLate = ceil((submittedAt −&lt;br&gt;effectiveDeadline) / 24 h)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="230" x="330" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fontSize=11;verticalAlign=top;labelBackgroundColor=none;strokeColor=#000000;" value="&lt;b&gt;Marked&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align:left;font-size:10px;&quot;&gt;entry / feedback visible to student&lt;br&gt;(mark still hidden)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="230" x="820" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fontSize=11;verticalAlign=top;labelBackgroundColor=none;strokeColor=#000000;" value="&lt;b&gt;Moderated&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align:left;font-size:10px;&quot;&gt;entry / record moderatedBy, moderatedAt&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="230" x="1240" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" parent="1" style="rounded=1;arcSize=18;whiteSpace=wrap;html=1;fontSize=11;verticalAlign=top;labelBackgroundColor=none;strokeColor=#000000;" value="&lt;b&gt;Released&lt;/b&gt;&lt;hr size=&quot;1&quot;&gt;&lt;div style=&quot;text-align:left;font-size:10px;&quot;&gt;entry / releasedAt = now;&lt;br&gt;mark + feedback visible&lt;/div&gt;" vertex="1">
+          <mxGeometry height="86" width="220" x="1560" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" parent="1" style="ellipse;shape=endState;html=1;labelBackgroundColor=none;strokeColor=#000000;" value="" vertex="1">
+          <mxGeometry height="30" width="30" x="1656" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" edge="1" parent="1" source="c2" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;fontColor=#000000;strokeColor=#000000;" target="c3" value="submit(file)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" edge="1" parent="1" source="c3" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=0.5;exitY=0;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;fontColor=#000000;strokeColor=#000000;" target="c4" value="[submittedAt ≤ effectiveDeadline]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c12" edge="1" parent="1" source="c3" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=0;entryY=0.5;edgeStyle=orthogonalEdgeStyle;fontColor=#000000;strokeColor=#000000;" target="c5" value="[submittedAt &amp;gt; effectiveDeadline]">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c13" edge="1" parent="1" source="c4" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=0.25;exitY=0;entryX=0.75;entryY=0;fontColor=#000000;strokeColor=#000000;" target="c4" value="resubmit(file) [now ≤ effectiveDeadline]&lt;br&gt;/ replace file; attemptNo++">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="388" y="75" />
+              <mxPoint x="502" y="75" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c14" edge="1" parent="1" source="c4" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0;entryY=0.25;edgeStyle=orthogonalEdgeStyle;fontColor=#000000;strokeColor=#000000;" target="c6" value="mark(raw, feedback) [0 ≤ raw ≤ maxMark]&lt;br&gt;/ mark = raw; audit(MARK)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c15" edge="1" parent="1" source="c5" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0;entryY=0.75;edgeStyle=orthogonalEdgeStyle;fontColor=#000000;strokeColor=#000000;" target="c6" value="mark(raw, feedback) [0 ≤ raw ≤ maxMark]&lt;br&gt;/ mark = penalty.apply(raw, maxMark, daysLate);&lt;br&gt;audit(MARK)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c16" edge="1" parent="1" source="c6" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=0.25;exitY=0;entryX=0.75;entryY=0;fontColor=#000000;strokeColor=#000000;" target="c6" value="remark(raw, reason) [reason ≠ &quot;&quot; ∧ 0 ≤ raw ≤ maxMark]&lt;br&gt;/ recompute mark; audit(REMARK)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="878" y="235" />
+              <mxPoint x="992" y="235" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c17" edge="1" parent="1" source="c6" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=1;exitY=0.3;entryX=0;entryY=0.3;fontColor=#000000;strokeColor=#000000;" target="c7" value="approve()">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c18" edge="1" parent="1" source="c6" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=1;exitY=0.75;entryX=0;entryY=0.75;fontColor=#000000;strokeColor=#000000;" target="c7" value="adjust(newMark, reason)&lt;br&gt;[reason ≠ &quot;&quot; ∧ 0 ≤ newMark ≤ maxMark]&lt;br&gt;/ audit(MODERATE)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c19" edge="1" parent="1" source="c7" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=0.25;exitY=0;entryX=0.75;entryY=0;fontColor=#000000;strokeColor=#000000;" target="c7" value="adjust(newMark, reason) [valid]&lt;br&gt;/ audit(MODERATE)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1298" y="235" />
+              <mxPoint x="1412" y="235" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c20" edge="1" parent="1" source="c7" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;fontColor=#000000;strokeColor=#000000;" target="c8" value="release()">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c21" edge="1" parent="1" source="c8" style="html=1;endArrow=open;endFill=0;endSize=10;fontSize=10;rounded=0;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=0.5;entryY=0;fontColor=#000000;strokeColor=#000000;" target="c9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c22" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=14;fontSize=10;align=left;spacingLeft=6;verticalAlign=top;labelBackgroundColor=none;strokeColor=#000000;" value="Any event not shown for the current state is rejected with InvalidTransitionError.&lt;br&gt;Student visibility: feedback from Marked onwards (FR09, C1); mark only in Released (FR13).&lt;br&gt;There is deliberately no Marked → Released transition, so no mark reaches a student without HoD moderation (C1).&lt;br&gt;A Late submission can never return to Submitted, so resubmission after the deadline is impossible (FR17, O2)." vertex="1">
+          <mxGeometry height="86" width="760" x="820" y="560" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

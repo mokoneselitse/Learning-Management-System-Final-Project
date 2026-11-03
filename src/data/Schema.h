@@ -57,6 +57,16 @@ CREATE TABLE IF NOT EXISTS extension (
     UNIQUE (assignment_id, student_id)
 );
 
+-- v1.1 (CR1): one class-wide extension per assignment. A v1.0 database gets this
+-- table automatically the first time v1.1 opens it (IF NOT EXISTS); no data changes.
+CREATE TABLE IF NOT EXISTS class_extension (
+    assignment_id INTEGER PRIMARY KEY REFERENCES assignment(assignment_id) ON DELETE RESTRICT,
+    new_deadline  INTEGER NOT NULL,
+    reason        TEXT NOT NULL CHECK (length(trim(reason)) > 0),
+    granted_by    INTEGER NOT NULL REFERENCES users(user_id) ON DELETE RESTRICT,
+    granted_at    INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS submission (
     submission_id INTEGER PRIMARY KEY AUTOINCREMENT,
     assignment_id INTEGER NOT NULL REFERENCES assignment(assignment_id) ON DELETE RESTRICT,

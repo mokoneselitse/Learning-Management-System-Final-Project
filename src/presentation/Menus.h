@@ -37,6 +37,7 @@ private:  // one method per menu option (added during coding)
     void viewSubmissions();
     void markSubmission();
     void remarkSubmission();
+    void grantClassExtension();  // v1.1 (CR1)
 };
 
 class HodMenu : public RoleMenu {

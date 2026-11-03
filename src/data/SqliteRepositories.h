@@ -52,6 +52,8 @@ public:
     std::vector<Assignment> forLecturer(int lecturerId) override;
     void saveExtension(const Extension& e) override;
     std::optional<Extension> findExtension(int assignmentId, int studentId) override;
+    void saveClassExtension(const ClassExtension& e) override;
+    std::optional<ClassExtension> findClassExtension(int assignmentId) override;
 
 private:
     SqliteDatabase& db;

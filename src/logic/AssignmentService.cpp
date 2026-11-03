@@ -74,7 +74,46 @@ std::vector<Course> AssignmentService::coursesForLecturer(const Session& s) {
     return courses.coursesForLecturer(s.user().getId());
 }
 
-std::optional<Extension> AssignmentService::myExtension(const Session& s, int assignmentId) {
+
+// v1.1 (CR1). A class extension must be granted BEFORE the original deadline, so no
+// submission can be LATE yet and no late status ever needs to be undone.
+// After the deadline, lecturers use individual extensions (FR06) as in v1.0.
+void AssignmentService::grantClassExtension(const Session& s, int assignmentId,
+                                            Timestamp newDeadline, const std::string& reason) {
+    s.require(Action::GRANT_EXTENSION);
+    std::optional<Assignment> a = assignments.findById(assignmentId);
+    if (!a) throw NotFoundError("No assignment with that id.");
+    std::optional<Course> course = courses.findCourse(a->getCourseId());
+    if (!course || course->getLecturerId() != s.user().getId()) {
+        throw AccessDeniedError("You are not the lecturer of this course.");
+    }
+    Timestamp now = clock.now();
+    if (now >= a->getDeadline()) {
+        throw ValidationError(
+            "The original deadline has passed. Use individual extensions for late cases.");
+    }
+    if (newDeadline <= a->getDeadline()) {
+        throw ValidationError("The new deadline must be later than the original deadline.");
+    }
+    requireNotBlank(reason, "Reason");
+    assignments.saveClassExtension(
+        ClassExtension(assignmentId, newDeadline, reason, s.user().getId(), now));
+}
+
+DeadlineInfo AssignmentService::deadlineFor(const Session& s, int assignmentId) {
     s.require(Action::VIEW_ASSIGNMENTS);
-    return assignments.findExtension(assignmentId, s.user().getId());
+    std::optional<Assignment> a = assignments.findById(assignmentId);
+    if (!a) throw NotFoundError("No assignment with that id.");
+    std::optional<ClassExtension> classExt = assignments.findClassExtension(assignmentId);
+    std::optional<Extension> ext = assignments.findExtension(assignmentId, s.user().getId());
+
+    DeadlineInfo info{a->getDeadline(), a->getDeadline(), ""};
+    info.effective =
+        a->effectiveDeadlineFor(classExt ? &(*classExt) : nullptr, ext ? &(*ext) : nullptr);
+    if (info.effective != info.original) {
+        // whichever extension produced the effective deadline
+        bool individual = ext && ext->getNewDeadline() == info.effective;
+        info.extendedBy = individual ? "individual" : "class";
+    }
+    return info;
 }

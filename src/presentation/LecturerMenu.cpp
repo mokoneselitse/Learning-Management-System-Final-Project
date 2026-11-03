@@ -9,6 +9,7 @@ void LecturerMenu::showOptions() {
         << "5. View submissions for an assignment\n"
         << "6. Mark a submission\n"
         << "7. Re-mark a submission\n"
+        << "8. Extend the deadline for the whole class\n"
         << "0. Log out\n";
 }
 
@@ -22,6 +23,7 @@ bool LecturerMenu::handle(int choice) {
         case 5: viewSubmissions(); return true;
         case 6: markSubmission(); return true;
         case 7: remarkSubmission(); return true;
+        case 8: grantClassExtension(); return true;
         case 0:
             return false;
         default:
@@ -106,4 +108,14 @@ void LecturerMenu::remarkSubmission() {
     std::string reason = readLine("Reason for the change: ");
     services.marking.remark(session, id, raw, reason);
     out << "Re-marked. The change is recorded in the audit log.\n";
+}
+
+// v1.1 (CR1, FR24)
+void LecturerMenu::grantClassExtension() {
+    int assignmentId = readInt("Assignment id: ");
+    Timestamp newDeadline = readDateTime("New deadline for the whole class (YYYY-MM-DD HH:MM): ");
+    std::string reason = readLine("Reason: ");
+    services.assignments.grantClassExtension(session, assignmentId, newDeadline, reason);
+    out << "Deadline extended to " << formatTime(newDeadline)
+        << " for every student on the course.\n";
 }
