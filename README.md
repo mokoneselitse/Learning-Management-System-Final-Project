@@ -1,5 +1,7 @@
 # Moderated LMS
 
+[![CI](https://github.com/mokoneselitse/Learning-Management-System-Final-Project/actions/workflows/ci.yml/badge.svg)](https://github.com/mokoneselitse/Learning-Management-System-Final-Project/actions/workflows/ci.yml)
+
 A console-based Learning Management System for a school, with four roles
 (Administrator, Lecturer, Head of Department, Student). Lecturers mark work,
 the Head of Department moderates and releases the marks, and every mark
@@ -32,9 +34,10 @@ CS4433 Software Engineering – Final Project. Written in C++17 with SQLite and 
    pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-ninja mingw-w64-ucrt-x86_64-sqlite3 mingw-w64-ucrt-x86_64-libsodium git
    ```
    On a slow connection, add `--disable-download-timeout` after `-S`.
+   For the tests also install `mingw-w64-ucrt-x86_64-catch mingw-w64-ucrt-x86_64-python mingw-w64-ucrt-x86_64-gcovr`.
 5. Get the code and build it:
    ```
-   git clone <repository-url> lms
+   git clone https://github.com/mokoneselitse/Learning-Management-System-Final-Project.git lms
    cd lms
    cmake -S . -B build -G Ninja
    cmake --build build
@@ -44,7 +47,7 @@ CS4433 Software Engineering – Final Project. Written in C++17 with SQLite and 
 ## 3. Build on Linux (Ubuntu/Debian)
 
 ```
-sudo apt install g++ cmake ninja-build libsqlite3-dev libsodium-dev git
+sudo apt install g++ cmake ninja-build libsqlite3-dev libsodium-dev git catch2 gcovr
 cmake -S . -B build -G Ninja
 cmake --build build
 ```
@@ -84,6 +87,18 @@ src/
 CMake builds each layer as its own library (`lms_domain`, `lms_data`, `lms_logic`), so a layer cannot use
 a layer above it by mistake.
 
-## 6. Coding standard
+## 6. Tests
 
-See [CODING_STANDARD.md](CODING_STANDARD.md).
+```
+./build/lms_tests.exe                                              # 46 unit + integration tests
+python tests/system/run_system_tests.py build/lms.exe system-test-run   # 20 system tests
+./build/lms_nfr_perf.exe                                           # NFR01 / NFR05 measurements
+```
+
+The same checks run automatically on every push (badge at the top; see the **Actions** tab).
+
+## 7. Documents
+
+* [Coding standard](CODING_STANDARD.md)
+* [Configuration management](docs/CONFIGURATION_MANAGEMENT.md): branching, commits, releases, CI
+* [Quality assurance](docs/QUALITY_ASSURANCE.md): static analysis, metrics, code review

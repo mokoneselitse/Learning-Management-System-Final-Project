@@ -103,8 +103,9 @@ TEST_CASE_METHOD(LmsFixture, "IT-06 Lecturer creates assignments only for their 
     CHECK(assignmentService.listForLecturer(lecView, true)[0].getId() == a);
 
     Session other = login("lec2");
-    CHECK_THROWS_AS(assignmentService.createAssignment(other, courseId, "X", "", testDeadline(), 50),
-                    AccessDeniedError);
+    CHECK_THROWS_AS(
+        assignmentService.createAssignment(other, courseId, "X", "", testDeadline(), 50),
+        AccessDeniedError);
     Session lec = login("lec1");
     CHECK_THROWS_AS(assignmentService.createAssignment(lec, courseId, "X", "", testDeadline(), 0),
                     ValidationError);

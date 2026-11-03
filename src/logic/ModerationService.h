@@ -16,15 +16,15 @@ public:
                       ICourseRepository& courses, IAuditRepository& audit, IUnitOfWork& tx,
                       IClock& clock);
 
-    std::vector<Submission> pendingForDepartment(Session& s);
-    void approve(Session& s, int submissionId);
-    void adjust(Session& s, int submissionId, double newMark, const std::string& reason);
-    int release(Session& s, int assignmentId);  // returns how many marks were released
+    std::vector<Submission> pendingForDepartment(const Session& s);
+    void approve(const Session& s, int submissionId);
+    void adjust(const Session& s, int submissionId, double newMark, const std::string& reason);
+    int release(const Session& s, int assignmentId);  // returns how many marks were released
 
 private:
-    int hodDepartment(Session& s);
+    int hodDepartment(const Session& s);
     // The assignment, if its course is in the HoD's department (else AccessDeniedError).
-    Assignment assignmentInDepartment(Session& s, int assignmentId);
+    Assignment assignmentInDepartment(const Session& s, int assignmentId);
     Submission findSubmission(int submissionId);
 
     ISubmissionRepository& submissions;

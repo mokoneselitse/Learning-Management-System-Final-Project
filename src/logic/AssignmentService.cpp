@@ -9,7 +9,7 @@ AssignmentService::AssignmentService(IAssignmentRepository& assignments,
                                      ICourseRepository& courses, IClock& clock)
     : assignments(assignments), courses(courses), clock(clock) {}
 
-int AssignmentService::createAssignment(Session& s, int courseId, const std::string& title,
+int AssignmentService::createAssignment(const Session& s, int courseId, const std::string& title,
                                         const std::string& desc, Timestamp deadline,
                                         double maxMark) {
     s.require(Action::CREATE_ASSIGNMENT);
@@ -27,7 +27,7 @@ int AssignmentService::createAssignment(Session& s, int courseId, const std::str
         Assignment(0, courseId, title, desc, deadline, maxMark, s.user().getId()));
 }
 
-void AssignmentService::grantExtension(Session& s, int assignmentId, int studentId,
+void AssignmentService::grantExtension(const Session& s, int assignmentId, int studentId,
                                        Timestamp newDeadline, const std::string& reason) {
     s.require(Action::GRANT_EXTENSION);
     std::optional<Assignment> a = assignments.findById(assignmentId);
@@ -48,12 +48,12 @@ void AssignmentService::grantExtension(Session& s, int assignmentId, int student
         Extension(0, assignmentId, studentId, newDeadline, reason, s.user().getId(), clock.now()));
 }
 
-std::vector<Assignment> AssignmentService::listForStudent(Session& s) {
+std::vector<Assignment> AssignmentService::listForStudent(const Session& s) {
     s.require(Action::VIEW_ASSIGNMENTS);
     return assignments.forStudent(s.user().getId());
 }
 
-std::vector<Assignment> AssignmentService::listForLecturer(Session& s, bool byDeadline) {
+std::vector<Assignment> AssignmentService::listForLecturer(const Session& s, bool byDeadline) {
     s.require(Action::VIEW_OWN_ASSIGNMENTS);
     std::vector<Assignment> list = assignments.forLecturer(s.user().getId());  // by deadline
     if (!byDeadline) {
@@ -64,17 +64,17 @@ std::vector<Assignment> AssignmentService::listForLecturer(Session& s, bool byDe
     return list;
 }
 
-std::vector<Course> AssignmentService::coursesForStudent(Session& s) {
+std::vector<Course> AssignmentService::coursesForStudent(const Session& s) {
     s.require(Action::VIEW_COURSES);
     return courses.coursesForStudent(s.user().getId());
 }
 
-std::vector<Course> AssignmentService::coursesForLecturer(Session& s) {
+std::vector<Course> AssignmentService::coursesForLecturer(const Session& s) {
     s.require(Action::VIEW_OWN_ASSIGNMENTS);
     return courses.coursesForLecturer(s.user().getId());
 }
 
-std::optional<Extension> AssignmentService::myExtension(Session& s, int assignmentId) {
+std::optional<Extension> AssignmentService::myExtension(const Session& s, int assignmentId) {
     s.require(Action::VIEW_ASSIGNMENTS);
     return assignments.findExtension(assignmentId, s.user().getId());
 }

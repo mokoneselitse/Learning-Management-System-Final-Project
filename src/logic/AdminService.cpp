@@ -27,7 +27,7 @@ void AdminService::checkCanBeHod(int hodId, int allowedDepartmentId) {
     }
 }
 
-int AdminService::createUser(Session& s, Role role, const std::string& username,
+int AdminService::createUser(const Session& s, Role role, const std::string& username,
                              const std::string& name, const std::string& pw) {
     s.require(Action::MANAGE_USERS);
     checkUsername(username);
@@ -40,7 +40,7 @@ int AdminService::createUser(Session& s, Role role, const std::string& username,
     return users.add(role, username, name, hasher.hash(pw));
 }
 
-void AdminService::setUserActive(Session& s, int userId, bool active) {
+void AdminService::setUserActive(const Session& s, int userId, bool active) {
     s.require(Action::MANAGE_USERS);
     if (users.findById(userId) == nullptr) throw NotFoundError("No user with that id.");
     if (userId == s.user().getId() && !active) {
@@ -49,7 +49,7 @@ void AdminService::setUserActive(Session& s, int userId, bool active) {
     users.setActive(userId, active);
 }
 
-int AdminService::createDepartment(Session& s, const std::string& name,
+int AdminService::createDepartment(const Session& s, const std::string& name,
                                    std::optional<int> hodId) {
     s.require(Action::MANAGE_COURSES);
     requireNotBlank(name, "Department name");
@@ -61,7 +61,7 @@ int AdminService::createDepartment(Session& s, const std::string& name,
     }
 }
 
-int AdminService::createCourse(Session& s, const std::string& code, const std::string& title,
+int AdminService::createCourse(const Session& s, const std::string& code, const std::string& title,
                                int departmentId) {
     s.require(Action::MANAGE_COURSES);
     requireNotBlank(code, "Course code");
@@ -73,7 +73,7 @@ int AdminService::createCourse(Session& s, const std::string& code, const std::s
     }
 }
 
-void AdminService::assignLecturer(Session& s, int courseId, int lecturerId) {
+void AdminService::assignLecturer(const Session& s, int courseId, int lecturerId) {
     s.require(Action::ASSIGN_LECTURER);
     if (!courses.findCourse(courseId)) throw NotFoundError("No course with that id.");
     std::unique_ptr<User> lecturer = users.findById(lecturerId);
@@ -83,7 +83,7 @@ void AdminService::assignLecturer(Session& s, int courseId, int lecturerId) {
     courses.assignLecturer(courseId, lecturerId);
 }
 
-void AdminService::enrolStudent(Session& s, int studentId, int courseId) {
+void AdminService::enrolStudent(const Session& s, int studentId, int courseId) {
     s.require(Action::ENROL_STUDENT);
     if (!courses.findCourse(courseId)) throw NotFoundError("No course with that id.");
     std::unique_ptr<User> student = users.findById(studentId);
@@ -96,7 +96,7 @@ void AdminService::enrolStudent(Session& s, int studentId, int courseId) {
     courses.enrol(studentId, courseId, clock.now());
 }
 
-void AdminService::editUser(Session& s, int userId, const std::string& username,
+void AdminService::editUser(const Session& s, int userId, const std::string& username,
                             const std::string& name) {
     s.require(Action::MANAGE_USERS);
     std::unique_ptr<User> user = users.findById(userId);
@@ -110,14 +110,14 @@ void AdminService::editUser(Session& s, int userId, const std::string& username,
     users.update(userId, username, name);
 }
 
-void AdminService::resetPassword(Session& s, int userId, const std::string& newPassword) {
+void AdminService::resetPassword(const Session& s, int userId, const std::string& newPassword) {
     s.require(Action::MANAGE_USERS);
     if (users.findById(userId) == nullptr) throw NotFoundError("No user with that id.");
     requireNotBlank(newPassword, "Password");
     users.setPasswordHash(userId, hasher.hash(newPassword));
 }
 
-void AdminService::editCourse(Session& s, int courseId, const std::string& code,
+void AdminService::editCourse(const Session& s, int courseId, const std::string& code,
                               const std::string& title) {
     s.require(Action::MANAGE_COURSES);
     if (!courses.findCourse(courseId)) throw NotFoundError("No course with that id.");
@@ -130,24 +130,24 @@ void AdminService::editCourse(Session& s, int courseId, const std::string& code,
     }
 }
 
-void AdminService::setDepartmentHod(Session& s, int departmentId, std::optional<int> hodId) {
+void AdminService::setDepartmentHod(const Session& s, int departmentId, std::optional<int> hodId) {
     s.require(Action::MANAGE_COURSES);
     if (!courses.findDepartment(departmentId)) throw NotFoundError("No department with that id.");
     if (hodId) checkCanBeHod(*hodId, departmentId);
     courses.setDepartmentHod(departmentId, hodId);
 }
 
-std::vector<std::unique_ptr<User>> AdminService::listUsers(Session& s) {
+std::vector<std::unique_ptr<User>> AdminService::listUsers(const Session& s) {
     s.require(Action::MANAGE_USERS);
     return users.listAll();
 }
 
-std::vector<Department> AdminService::listDepartments(Session& s) {
+std::vector<Department> AdminService::listDepartments(const Session& s) {
     s.require(Action::MANAGE_COURSES);
     return courses.listDepartments();
 }
 
-std::vector<Course> AdminService::listCourses(Session& s) {
+std::vector<Course> AdminService::listCourses(const Session& s) {
     s.require(Action::MANAGE_COURSES);
     return courses.listCourses();
 }

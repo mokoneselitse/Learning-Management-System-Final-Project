@@ -5,7 +5,8 @@
 #include "Errors.h"
 
 SodiumPasswordHasher::SodiumPasswordHasher()
-    : SodiumPasswordHasher(crypto_pwhash_OPSLIMIT_INTERACTIVE, crypto_pwhash_MEMLIMIT_INTERACTIVE) {}
+    : SodiumPasswordHasher(crypto_pwhash_OPSLIMIT_INTERACTIVE, crypto_pwhash_MEMLIMIT_INTERACTIVE) {
+}
 
 SodiumPasswordHasher::SodiumPasswordHasher(unsigned long long opsLimit, std::size_t memLimit)
     : opsLimit(opsLimit), memLimit(memLimit) {

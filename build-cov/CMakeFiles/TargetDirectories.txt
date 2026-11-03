@@ -1,0 +1,8 @@
+C:/Users/mokon/lms/build-cov/CMakeFiles/lms_domain.dir
+C:/Users/mokon/lms/build-cov/CMakeFiles/lms_data.dir
+C:/Users/mokon/lms/build-cov/CMakeFiles/lms_logic.dir
+C:/Users/mokon/lms/build-cov/CMakeFiles/lms.dir
+C:/Users/mokon/lms/build-cov/CMakeFiles/lms_tests.dir
+C:/Users/mokon/lms/build-cov/CMakeFiles/test.dir
+C:/Users/mokon/lms/build-cov/CMakeFiles/edit_cache.dir
+C:/Users/mokon/lms/build-cov/CMakeFiles/rebuild_cache.dir

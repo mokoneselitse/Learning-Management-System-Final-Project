@@ -23,9 +23,11 @@ TEST_CASE_METHOD(LmsFixture, "IT-16 Every role is blocked from other roles' acti
                     AccessDeniedError);
     CHECK_THROWS_AS(auditService.history(stu, 1), AccessDeniedError);
     CHECK_THROWS_AS(auditService.history(lec, 1), AccessDeniedError);
+    CHECK_THROWS_AS(auth.nameOf(stu, lecturerId), AccessDeniedError);  // found in code review
 }
 
-TEST_CASE_METHOD(LmsFixture, "IT-17 Users cannot act on work outside their own course or department",
+TEST_CASE_METHOD(LmsFixture,
+                 "IT-17 Users cannot act on work outside their own course or department",
                  "[integration][security][FR21][NFR06]") {
     int a = createAssignment();
     Session stu = login("stu1");
@@ -59,7 +61,8 @@ public:
     std::vector<AuditEntry> forSubmission(int) override { return {}; }
 };
 
-TEST_CASE_METHOD(LmsFixture, "IT-18 If the audit entry cannot be saved, the mark is not saved either",
+TEST_CASE_METHOD(LmsFixture,
+                 "IT-18 If the audit entry cannot be saved, the mark is not saved either",
                  "[integration][transaction][FR22]") {
     int a = createAssignment();
     Session stu = login("stu1");

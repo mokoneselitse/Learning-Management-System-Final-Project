@@ -111,6 +111,7 @@ if(LMS_BUILD_TESTS)
       tests/unit/test_submission_state.cpp
       tests/unit/test_users.cpp
       tests/unit/test_assignment.cpp
+      tests/unit/test_validation.cpp
       tests/integration/test_admin_auth.cpp
       tests/integration/test_workflow.cpp
       tests/integration/test_security.cpp
@@ -119,6 +120,10 @@ if(LMS_BUILD_TESTS)
     target_link_libraries(lms_tests PRIVATE lms_logic Catch2::Catch2WithMain)
     include(Catch)
     catch_discover_tests(lms_tests)
+
+    # Acceptance measurements for NFR01 and NFR05 (run by hand: ./build/lms_nfr_perf)
+    add_executable(lms_nfr_perf tests/acceptance/nfr_performance.cpp)
+    target_link_libraries(lms_nfr_perf PRIVATE lms_logic)
   else()
     message(STATUS "Catch2 not found - the tests will not be built.")
   endif()

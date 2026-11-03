@@ -1,5 +1,7 @@
 #include "RoleMenu.h"
 
+#include <charconv>
+#include <system_error>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -44,30 +46,35 @@ std::string RoleMenu::readPassword(const std::string& prompt) {
     return readHiddenLine(in, out);
 }
 
+// Removes spaces and tabs at both ends, so " 5 " is read as 5.
+static std::string trimSpaces(const std::string& text) {
+    size_t first = text.find_first_not_of(" \t");
+    if (first == std::string::npos) return "";
+    size_t last = text.find_last_not_of(" \t");
+    return text.substr(first, last - first + 1);
+}
+
 int RoleMenu::readInt(const std::string& prompt) {
     while (true) {
-        std::string line = readLine(prompt);
+        std::string line = trimSpaces(readLine(prompt));
         if (!in) return 0;
-        try {
-            size_t used = 0;
-            int value = std::stoi(line, &used);
-            if (used == line.size()) return value;
-        } catch (const std::exception&) {
-        }
+        // from_chars reports a bad number through its result instead of throwing.
+        int value = 0;
+        const char* end = line.data() + line.size();
+        std::from_chars_result r = std::from_chars(line.data(), end, value);
+        if (!line.empty() && r.ec == std::errc() && r.ptr == end) return value;
         out << "Please enter a whole number.\n";
     }
 }
 
 double RoleMenu::readDouble(const std::string& prompt) {
     while (true) {
-        std::string line = readLine(prompt);
+        std::string line = trimSpaces(readLine(prompt));
         if (!in) return 0;
-        try {
-            size_t used = 0;
-            double value = std::stod(line, &used);
-            if (used == line.size()) return value;
-        } catch (const std::exception&) {
-        }
+        double value = 0;
+        const char* end = line.data() + line.size();
+        std::from_chars_result r = std::from_chars(line.data(), end, value);
+        if (!line.empty() && r.ec == std::errc() && r.ptr == end) return value;
         out << "Please enter a number, e.g. 42 or 42.5.\n";
     }
 }
@@ -101,7 +108,8 @@ void RoleMenu::printAuditLog(const std::vector<AuditEntry>& entries) {
     for (const AuditEntry& e : entries) {
         out << "  " << formatTime(e.getChangedAt()) << "  " << toString(e.getAction())
             << " by " << services.auth.nameOf(session, e.getChangedBy()) << ": ";
-        if (e.getOldMark()) out << *e.getOldMark(); else out << "-";
+        std::optional<double> oldMark = e.getOldMark();
+        if (oldMark) out << *oldMark; else out << "-";
         out << " -> " << e.getNewMark() << "  (" << e.getReason() << ")\n";
     }
 }

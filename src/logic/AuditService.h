@@ -9,7 +9,7 @@
 class AuditService {
 public:
     explicit AuditService(IAuditRepository& audit);
-    std::vector<AuditEntry> history(Session& s, int submissionId);
+    std::vector<AuditEntry> history(const Session& s, int submissionId);
 
 private:
     IAuditRepository& audit;
