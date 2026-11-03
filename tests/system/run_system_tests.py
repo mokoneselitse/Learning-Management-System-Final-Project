@@ -88,7 +88,7 @@ test("ST-06", "Enrol student in course", "FR04", "A student cannot be enrolled t
      ["Error: The student is already enrolled on this course.", "Error: That user is not a Student."])
 
 # ---------------- Lecturer: create assignment
-test("ST-07", "Create assignment", "FR05", "Lecturer creates an assignment; invalid ones refused",
+test("ST-07", "Create assignment + View own assignments", "FR05, FR23", "Lecturer creates an assignment; invalid ones refused",
      ["lec2","pw", "3","1","Hack","x",D3,"50", "0",
       "lec1","pw", "1", "3","1","Bad",  "x",PAST,"50",  "3","1","Bad2","x",D3,"0",
       "3","1","Final Project","Build the LMS",D3,"50", "3","1","Late Lab","Lab work",D3,"20", "2","1","0"],

@@ -5,3 +5,5 @@ system-test-run/
 nfr_perf.db
 dist/
 build-release/
+build-cov/
+coverage*.html
