@@ -26,7 +26,20 @@ ldd "build-release/${EXE}" | awk -v pat="${DLL_PATTERN}" '$3 ~ pat {print $3}' |
         cp "${dll}" "${OUT}/"
         echo "   ${dll##*/}"
     done
-cp docs/INSTALLATION_GUIDE.md docs/RELEASE_NOTES.md "${OUT}/"
+cp docs/INSTALLATION_GUIDE.md docs/RELEASE_NOTES.md THIRD_PARTY_LICENSES.md "${OUT}/"
+# The licence of every MSYS2 package a DLL came from (libsodium's ISC licence requires its notice
+# to travel with the program). MSYS2 keeps them in /ucrt64/share/licenses/<package>/.
+mkdir -p "${OUT}/third-party-licenses"
+if command -v pacman > /dev/null; then
+    ldd "build-release/${EXE}" | awk -v pat="${DLL_PATTERN}" '$3 ~ pat {print $3}' | sort -u |
+        while read -r dll; do
+            pkg=$(pacman -Qqo "${dll}" 2>/dev/null | sed 's/^mingw-w64-ucrt-x86_64-//') || true
+            if [ -n "${pkg}" ] && [ -d "/ucrt64/share/licenses/${pkg}" ]; then
+                cp -r "/ucrt64/share/licenses/${pkg}" "${OUT}/third-party-licenses/"
+                echo "   licence: ${pkg}"
+            fi
+        done
+fi
 cp -r docs/user-manuals "${OUT}/user-manuals"
 
 echo "== Checking the program starts with only the packaged files"

@@ -100,6 +100,13 @@ The same checks run automatically on every push (badge at the top; see the **Act
 ## 7. Documents
 
 * [Coding standard](CODING_STANDARD.md)
+* **[Final report (PDF)](docs/FINAL_REPORT.pdf)** ([Word version](docs/FINAL_REPORT.docx)) and the [video presentation](video/)
+* Phase documents: [1 Project management plan](docs/PHASE1_PROJECT_MANAGEMENT_PLAN.pdf),
+  [2 Requirements (SRS, use cases)](docs/PHASE2_REQUIREMENTS_SRS_USE_CASES.pdf),
+  [3 Software design](docs/PHASE3_SOFTWARE_DESIGN_DOCUMENT.pdf),
+  [5 Verification and validation](docs/PHASE5_VERIFICATION_AND_VALIDATION.md)
+* [Traceability matrix](docs/TRACEABILITY_MATRIX.md) and [updated risk register](docs/RISK_REGISTER.md)
+* All diagrams: [images/](images/) (v1.0, and v1.1 versions with the CR1 changes in blue)
 * [Configuration management](docs/CONFIGURATION_MANAGEMENT.md): branching, commits, releases, CI
 * [Quality assurance](docs/QUALITY_ASSURANCE.md): static analysis, metrics, code review
 * [Installation guide](docs/INSTALLATION_GUIDE.md) for the school's technician
@@ -107,6 +114,8 @@ The same checks run automatically on every push (badge at the top; see the **Act
   [Head of Department](docs/user-manuals/HEAD_OF_DEPARTMENT.md), [Student](docs/user-manuals/STUDENT.md)
 * [Release notes](docs/RELEASE_NOTES.md)
 * [Change request CR1 (v1.1)](docs/CR1_CHANGE_ANALYSIS.md): classification, impact analysis, regression tests
+* [Professional, legal and ethical issues](docs/PROFESSIONAL_LEGAL_ETHICAL.md)
+* [Third-party licences](THIRD_PARTY_LICENSES.md)
 * [Deployment diagram](images/deployment_diagram_v1.1.png); all design diagrams (v1.0 and v1.1) are in [images/](images/)
 
 To build the installable release zip (in the MSYS2 UCRT64 terminal): `bash tools/package-windows.sh`

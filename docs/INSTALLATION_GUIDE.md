@@ -71,6 +71,21 @@ Then, from the Administrator menu (see the [Administrator manual](user-manuals/A
 
 To close the program, choose **0** (log out), then press Enter on an empty username.
 
+## 4a. Protect the data and the clock (do this once)
+
+The data folder holds learners' personal information and their marks, which the Data Protection Act
+requires the school to keep secure.
+
+1. **Correct date and time.** Deadlines and late penalties use the computer's clock. In Windows
+   **Settings → Time & language → Date & time**, set the correct time zone (Africa/Maseru, UTC+2) and
+   check the time. If the computer is never online, check it every week.
+2. **Separate Windows accounts.** Give staff and students a standard (non-administrator) Windows
+   account. Then right-click `C:\LMS\data` → **Properties** → **Security** and allow only the account
+   that runs the LMS to read and change it, so nobody can copy or edit `lms.db` outside the program.
+3. **Encryption, if available.** On Windows editions that have it, turn on **BitLocker** for drive C:
+   and use **BitLocker To Go** for the backup USB drive, so a stolen computer or USB drive does not
+   expose learners' data.
+
 ## 5. How students hand in files
 
 Students bring their work on a USB drive. When they choose **Submit an assignment** they type the file's
