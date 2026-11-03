@@ -19,7 +19,7 @@ Submission MarkingService::findSubmission(int submissionId) {
     return *sub;
 }
 
-Assignment MarkingService::ownAssignment(Session& s, const Submission& sub) {
+Assignment MarkingService::ownAssignment(const Session& s, const Submission& sub) {
     std::optional<Assignment> a = assignments.findById(sub.getAssignmentId());
     if (!a) throw NotFoundError("Assignment not found.");
     // Only the lecturer who set the assignment may mark it.
@@ -31,11 +31,11 @@ Assignment MarkingService::ownAssignment(Session& s, const Submission& sub) {
 
 static void checkRawMark(double rawMark, double maxMark) {
     if (rawMark < 0 || rawMark > maxMark) {  // FR07
-        throw ValidationError("Mark must be between 0 and " + std::to_string(maxMark) + ".");
+        throw ValidationError("Mark must be between 0 and " + formatNumber(maxMark) + ".");
     }
 }
 
-void MarkingService::mark(Session& s, int submissionId, double rawMark,
+void MarkingService::mark(const Session& s, int submissionId, double rawMark,
                           const std::string& feedback) {
     s.require(Action::MARK_SUBMISSION);
     Submission sub = findSubmission(submissionId);
@@ -59,7 +59,7 @@ void MarkingService::mark(Session& s, int submissionId, double rawMark,
     });
 }
 
-void MarkingService::remark(Session& s, int submissionId, double rawMark,
+void MarkingService::remark(const Session& s, int submissionId, double rawMark,
                             const std::string& reason) {
     s.require(Action::MARK_SUBMISSION);
     Submission sub = findSubmission(submissionId);
@@ -83,7 +83,7 @@ void MarkingService::remark(Session& s, int submissionId, double rawMark,
     });
 }
 
-std::vector<Submission> MarkingService::submissionsFor(Session& s, int assignmentId) {
+std::vector<Submission> MarkingService::submissionsFor(const Session& s, int assignmentId) {
     s.require(Action::MARK_SUBMISSION);
     std::optional<Assignment> a = assignments.findById(assignmentId);
     if (!a) throw NotFoundError("No assignment with that id.");
@@ -93,9 +93,8 @@ std::vector<Submission> MarkingService::submissionsFor(Session& s, int assignmen
     std::vector<Submission> list;
     for (SubmissionStatus st :
          {SubmissionStatus::SUBMITTED, SubmissionStatus::LATE, SubmissionStatus::MARKED}) {
-        for (const Submission& sub : submissions.findByAssignmentAndStatus(assignmentId, st)) {
-            list.push_back(sub);
-        }
+        std::vector<Submission> found = submissions.findByAssignmentAndStatus(assignmentId, st);
+        list.insert(list.end(), found.begin(), found.end());
     }
     return list;
 }

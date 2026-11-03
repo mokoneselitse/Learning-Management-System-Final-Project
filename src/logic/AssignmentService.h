@@ -13,19 +13,19 @@ public:
     AssignmentService(IAssignmentRepository& assignments, ICourseRepository& courses,
                       IClock& clock);
 
-    int createAssignment(Session& s, int courseId, const std::string& title,
+    int createAssignment(const Session& s, int courseId, const std::string& title,
                          const std::string& desc, Timestamp deadline, double maxMark);
-    void grantExtension(Session& s, int assignmentId, int studentId, Timestamp newDeadline,
+    void grantExtension(const Session& s, int assignmentId, int studentId, Timestamp newDeadline,
                         const std::string& reason);
-    std::vector<Assignment> listForStudent(Session& s);
+    std::vector<Assignment> listForStudent(const Session& s);
     // byDeadline = true: sorted by deadline; false: in the order they were created.
-    std::vector<Assignment> listForLecturer(Session& s, bool byDeadline);
-    std::vector<Course> coursesForStudent(Session& s);
+    std::vector<Assignment> listForLecturer(const Session& s, bool byDeadline);
+    std::vector<Course> coursesForStudent(const Session& s);
 
     // Added during coding: the lecturer's own courses, and the logged-in
     // student's extension for an assignment (shown on their assignment list).
-    std::vector<Course> coursesForLecturer(Session& s);
-    std::optional<Extension> myExtension(Session& s, int assignmentId);
+    std::vector<Course> coursesForLecturer(const Session& s);
+    std::optional<Extension> myExtension(const Session& s, int assignmentId);
 
 private:
     IAssignmentRepository& assignments;

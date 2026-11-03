@@ -14,13 +14,13 @@ ModerationService::ModerationService(ISubmissionRepository& submissions,
       tx(tx),
       clock(clock) {}
 
-int ModerationService::hodDepartment(Session& s) {
+int ModerationService::hodDepartment(const Session& s) {
     std::optional<int> dept = courses.departmentOfHod(s.user().getId());
     if (!dept) throw AccessDeniedError("You are not the head of any department.");
     return *dept;
 }
 
-Assignment ModerationService::assignmentInDepartment(Session& s, int assignmentId) {
+Assignment ModerationService::assignmentInDepartment(const Session& s, int assignmentId) {
     std::optional<Assignment> a = assignments.findById(assignmentId);
     if (!a) throw NotFoundError("No assignment with that id.");
     std::optional<Course> course = courses.findCourse(a->getCourseId());
@@ -37,13 +37,13 @@ Submission ModerationService::findSubmission(int submissionId) {
 }
 
 // FR10: marked work in the HoD's department that is waiting for moderation.
-std::vector<Submission> ModerationService::pendingForDepartment(Session& s) {
+std::vector<Submission> ModerationService::pendingForDepartment(const Session& s) {
     s.require(Action::REVIEW_MARKS);
     return submissions.findByDepartmentAndStatus(hodDepartment(s), SubmissionStatus::MARKED);
 }
 
 // The mark is accepted as it is, so there is no mark change to audit.
-void ModerationService::approve(Session& s, int submissionId) {
+void ModerationService::approve(const Session& s, int submissionId) {
     s.require(Action::MODERATE_MARK);
     Submission sub = findSubmission(submissionId);
     assignmentInDepartment(s, sub.getAssignmentId());
@@ -51,15 +51,14 @@ void ModerationService::approve(Session& s, int submissionId) {
     submissions.update(sub);
 }
 
-void ModerationService::adjust(Session& s, int submissionId, double newMark,
+void ModerationService::adjust(const Session& s, int submissionId, double newMark,
                                const std::string& reason) {
     s.require(Action::MODERATE_MARK);
     Submission sub = findSubmission(submissionId);
     Assignment a = assignmentInDepartment(s, sub.getAssignmentId());
     requireNotBlank(reason, "Reason");  // FR11: a reason is required
     if (newMark < 0 || newMark > a.getMaxMark()) {
-        throw ValidationError("Mark must be between 0 and " + std::to_string(a.getMaxMark()) +
-                              ".");
+        throw ValidationError("Mark must be between 0 and " + formatNumber(a.getMaxMark()) + ".");
     }
 
     std::optional<double> oldMark = sub.getMark();
@@ -76,7 +75,7 @@ void ModerationService::adjust(Session& s, int submissionId, double newMark,
 
 // FR12: releases every MODERATED submission of the assignment.
 // Submissions that are still MARKED are not released and stay hidden (FR13).
-int ModerationService::release(Session& s, int assignmentId) {
+int ModerationService::release(const Session& s, int assignmentId) {
     s.require(Action::RELEASE_MARKS);
     assignmentInDepartment(s, assignmentId);
     Timestamp t = clock.now();

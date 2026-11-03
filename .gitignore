@@ -1,5 +1,5 @@
 build/
 *.db
 submissions/
-build-cov/
-coverage*.html
+system-test-run/
+nfr_perf.db

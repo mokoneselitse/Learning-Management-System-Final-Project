@@ -24,10 +24,15 @@ TEST_CASE_METHOD(LmsFixture, "IT-07 On-time submission, resubmission and file st
     CHECK(fs::exists(first.getFilePath()));  // the first attempt's copy is kept
 
     CHECK_THROWS_AS(submissionService.submit(stu, a, "no_such_file.txt"), ValidationError);
+    // regression test for DEF-09: strange paths used to be able to crash the program
+    CHECK_THROWS_AS(submissionService.submit(stu, a, std::string(5000, 'x')), ValidationError);
+    CHECK_THROWS_AS(submissionService.submit(stu, a, folder.string()),
+                    ValidationError);  // a folder
     CHECK_THROWS_AS(submissionService.submit(stu, 999, workFile), NotFoundError);
 }
 
-TEST_CASE_METHOD(LmsFixture, "IT-08 Late work is accepted with days late; late resubmission is refused",
+TEST_CASE_METHOD(LmsFixture,
+                 "IT-08 Late work is accepted with days late; late resubmission is refused",
                  "[integration][submit][FR16][FR17][C2][O2]") {
     int a = createAssignment();
     Session s1 = login("stu1");
@@ -115,7 +120,8 @@ TEST_CASE_METHOD(LmsFixture, "IT-11 Re-marking needs a reason and records old an
     CHECK(submissions.findById(id)->getFeedback() == "Good");  // feedback kept
 }
 
-TEST_CASE_METHOD(LmsFixture, "IT-12 Students see feedback after marking but the mark only after release",
+TEST_CASE_METHOD(LmsFixture,
+                 "IT-12 Students see feedback after marking but the mark only after release",
                  "[integration][visibility][FR09][FR13][FR19][C1]") {
     int a = createAssignment();
     Session stu = login("stu1");
@@ -158,7 +164,8 @@ TEST_CASE_METHOD(LmsFixture, "IT-13 The HoD sees only marked work from their own
     CHECK(moderation.pendingForDepartment(other).empty());  // different department
 }
 
-TEST_CASE_METHOD(LmsFixture, "IT-14 Adjusting a mark needs a reason and a valid mark, and is audited",
+TEST_CASE_METHOD(LmsFixture,
+                 "IT-14 Adjusting a mark needs a reason and a valid mark, and is audited",
                  "[integration][moderation][FR11][FR22]") {
     int a = createAssignment();
     Session stu = login("stu1");
@@ -201,4 +208,21 @@ TEST_CASE_METHOD(LmsFixture, "IT-15 Release only releases moderated work",
     CHECK(submissions.findById(id2)->getStatus() == SubmissionStatus::MARKED);
     CHECK_FALSE(submissionService.resultsFor(s2)[0].mark.has_value());
     CHECK(moderation.release(hod, a) == 0);      // nothing left to release
+}
+
+TEST_CASE_METHOD(LmsFixture,
+                 "IT-22 Mark boundaries: 0 and the maximum are accepted, -1 and max+1 are not",
+                 "[integration][marking][FR07][boundary]") {
+    int a = createAssignment();  // maximum mark 50
+    Session s1 = login("stu1");
+    Session s2 = login("stu2");
+    int id1 = submissionService.submit(s1, a, workFile).getId();
+    int id2 = submissionService.submit(s2, a, workFile).getId();
+    Session lec = login("lec1");
+    CHECK_THROWS_AS(marking.mark(lec, id1, -1, "below"), ValidationError);
+    CHECK_THROWS_AS(marking.mark(lec, id1, 50.5, "above"), ValidationError);
+    CHECK_NOTHROW(marking.mark(lec, id1, 0, "Nothing submitted of value"));  // lower boundary
+    CHECK_NOTHROW(marking.mark(lec, id2, 50, "Perfect"));                    // upper boundary
+    CHECK(submissions.findById(id1)->getMark() == Approx(0));
+    CHECK(submissions.findById(id2)->getMark() == Approx(50));
 }

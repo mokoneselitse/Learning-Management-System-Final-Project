@@ -106,9 +106,13 @@ void Submission::release(Timestamp at) {
     releasedAt = at;
 }
 
+// The C1 visibility rules. Students read results through student_result_view, which applies
+// the same rules in SQL; these methods state them in the domain model and are checked by UT-16.
+// cppcheck-suppress unusedFunction ; used by the unit tests (cppcheck only scans src/)
 bool Submission::isFeedbackVisibleToStudent() const {
     return status == SubmissionStatus::MARKED || status == SubmissionStatus::MODERATED ||
            status == SubmissionStatus::RELEASED;
 }
 
+// cppcheck-suppress unusedFunction ; used by the unit tests (cppcheck only scans src/)
 bool Submission::isMarkVisibleToStudent() const { return status == SubmissionStatus::RELEASED; }

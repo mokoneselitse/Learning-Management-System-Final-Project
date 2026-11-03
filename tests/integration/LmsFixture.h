@@ -73,7 +73,8 @@ public:
         student2Id = admin.createUser(*adminSession, Role::STUDENT, "stu2", "Student Two", "pw");
         departmentId = admin.createDepartment(*adminSession, "Computer Science", hodId);
         admin.createDepartment(*adminSession, "Mathematics", otherHodId);
-        courseId = admin.createCourse(*adminSession, "CS4433", "Software Engineering", departmentId);
+        courseId =
+            admin.createCourse(*adminSession, "CS4433", "Software Engineering", departmentId);
         admin.assignLecturer(*adminSession, courseId, lecturerId);
         admin.enrolStudent(*adminSession, studentId, courseId);
         admin.enrolStudent(*adminSession, student2Id, courseId);

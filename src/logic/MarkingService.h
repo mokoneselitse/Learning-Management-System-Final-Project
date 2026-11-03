@@ -18,17 +18,17 @@ public:
                    IAuditRepository& audit, ILatePenaltyPolicy& penalty, IUnitOfWork& tx,
                    IClock& clock);
 
-    void mark(Session& s, int submissionId, double rawMark, const std::string& feedback);
-    void remark(Session& s, int submissionId, double rawMark, const std::string& reason);
+    void mark(const Session& s, int submissionId, double rawMark, const std::string& feedback);
+    void remark(const Session& s, int submissionId, double rawMark, const std::string& reason);
 
     // Added during coding: lets the lecturer menu list the submissions of one
     // of their assignments (SUBMITTED, LATE and MARKED) so they can pick one.
-    std::vector<Submission> submissionsFor(Session& s, int assignmentId);
+    std::vector<Submission> submissionsFor(const Session& s, int assignmentId);
 
 private:
     Submission findSubmission(int submissionId);
     // The submission's assignment; throws if the lecturer did not set it.
-    Assignment ownAssignment(Session& s, const Submission& sub);
+    Assignment ownAssignment(const Session& s, const Submission& sub);
 
     ISubmissionRepository& submissions;
     IAssignmentRepository& assignments;

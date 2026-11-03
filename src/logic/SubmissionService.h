@@ -16,14 +16,15 @@ public:
                       ISubmissionRepository& submissions, IClock& clock,
                       std::string storageFolder);
 
-    Submission submit(Session& s, int assignmentId, const std::string& filePath);
-    std::vector<StudentResult> resultsFor(Session& s);
+    Submission submit(const Session& s, int assignmentId, const std::string& filePath);
+    std::vector<StudentResult> resultsFor(const Session& s);
 
     // Whole days late, rounded up: 1 second late counts as 1 day.
     static int daysLate(Timestamp deadline, Timestamp at);
 
 private:
     Timestamp effectiveDeadline(const Assignment& a, int studentId);
+    Submission insertAndReload(const Submission& sub);  // saves a new row, returns it with its id
     // Copies the student's file into the storage folder and returns the new path,
     // so the submission is kept even if the student later deletes their file.
     std::string storeFile(const std::string& sourcePath, int assignmentId, int studentId,

@@ -18,7 +18,11 @@ Session AuthService::login(const std::string& username, const std::string& passw
     return Session(std::move(user));
 }
 
-std::string AuthService::nameOf(Session& /*s*/, int userId) {
+std::string AuthService::nameOf(const Session& s, int userId) {
+    // Names are personal data (NFR06): only staff screens show other users' names.
+    if (s.user().getRole() == Role::STUDENT) {
+        throw AccessDeniedError("Students cannot look up other users.");
+    }
     std::unique_ptr<User> user = users.findById(userId);
     if (user == nullptr) return "(unknown user " + std::to_string(userId) + ")";
     return user->getFullName();
